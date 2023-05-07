@@ -1,4 +1,10 @@
 import subprocess
 
-runCommand = 'mkdir build\ncd build\nrm -rf CMakeCache.txt\ncmake -DCMAKE_BUILD_TYPE=Release ..\nmake -j 15'
+runCommand = '''mkdir build
+cd build
+rm -rf CMakeCache.txt
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j 15 
+-DCMAKE_EXPORT_COMPILE_COMMANDS=1'''
+
 subprocess.call([runCommand], shell=True)

@@ -2,7 +2,6 @@ import sys
 sys.path.insert(0, "../../Python")
 import Drivers
 from JGSL import *
-
 if __name__ == "__main__":
     sim = Drivers.FEMDiscreteShellBase("double", 3)
 

@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-
 if (NOT APPLE)
 set(CMAKE_C_COMPILER /usr/bin/gcc)
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
@@ -11,7 +9,7 @@ set_property(CACHE LINEAR_SOLVER PROPERTY STRINGS "EIGEN" "CHOLMOD")
 
 set(ENABLE_FEM_SHELL ON)
 
-add_definitions(-DSTORAGE_ENABLED_OPENMP )
+# add_definitions(-DSTORAGE_ENABLED_OPENMP )
 if (ENABLE_FEM_SHELL)
   add_definitions(-DENABLE_FEM_SHELL)
 endif()

@@ -7,9 +7,9 @@ except OSError:
     pass
 import math
 
+import JGSL
 from JGSL import *
 from .SimulationBase import SimulationBase
-
 
 class FEMDiscreteShellBase(SimulationBase):
     def __init__(self, precision, dim):

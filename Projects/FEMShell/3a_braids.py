@@ -7,11 +7,11 @@ from JGSL import *
 if __name__ == "__main__":
     sim = Drivers.FEMDiscreteShellBase("double", 3)
 
-    size = '60'
+    size = '6'
     if len(sys.argv) > 1:
         size = sys.argv[1]
 
-    N = 30
+    N = 3
     if len(sys.argv) > 2:
         N = int(sys.argv[2])
 
@@ -27,10 +27,17 @@ if __name__ == "__main__":
         for i in range(iMax):
             sim.make_and_add_rod_3D(0.15, int(size), Vector3d(-width / 2 - step * 5 -xWidth / 2 + step * i, 0, -width / 2 + step * j), \
                 Vector3d(0, 0, 0), Vector3d(0, 0, 1), -90, Vector3d(1, 1, 1))
+            
             sim.make_and_add_rod_3D(0.15, int(size), Vector3d(width / 2 + step * 5 -xWidth / 2 + step * i, 0, -width / 2 + step * j), \
                 Vector3d(0, 0, 0), Vector3d(0, 0, 1), -90, Vector3d(1, 1, 1))
-    sim.set_DBC(Vector3d(-0.1, 1 - 1.0 / (int(size) - 2), -0.1), Vector3d(1.1, 1.1, 1.1), 
-        Vector3d(0, -0.001, 0), Vector3d(0, 0, 0), Vector3d(0, 1, 0), -270)
+            
+    sim.set_DBC(Vector3d(-0.1, 1 - 1.0 / (int(size) - 2), -0.1), #min
+                Vector3d(1.1, 1.1, 1.1), #max
+                Vector3d(0, -0.001, 0), #v
+                Vector3d(0, 0, 0), #rotation center
+                Vector3d(0, 1, 0), #rotation axis
+                -270) #angVelDeg
+            
     sim.set_DBC(Vector3d(-0.1, -0.1, -0.1), Vector3d(1.1, 1.0 / (int(size) - 2), 1.1), 
         Vector3d(0, 0.001, 0), Vector3d(0, 0, 0), Vector3d(0, 1, 0), 270)
 

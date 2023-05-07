@@ -1,10 +1,9 @@
 import sys
 import os
 import re
-
+import numpy as np
 sys.path.insert(0, "../../build")
 from JGSL import *
-
 def make_directory(folder):
     try:
         os.mkdir(folder)
