@@ -1,0 +1,18 @@
+{
+    "clangd.path": "clangd",
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/build",
+        "--background-index"
+    ],
+    "python.analysis.extraPaths": ["${workspaceFolder}/build/", "${workspaceFolder}/Python/"],
+    "python.analysis.typeCheckingMode": "off",
+    "python.analysis.include":["${workspaceFolder}/build/", "${workspaceFolder}/Python/"],
+    "python.analysis.packageIndexDepths":[
+        {
+            "name": "JGSL",
+            "depth": 3,
+            "includeAllSymbols": true
+        }
+    ],
+    "python.analysis.inlayHints.variableTypes":true
+}

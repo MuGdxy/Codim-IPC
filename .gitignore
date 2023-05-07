@@ -4,7 +4,6 @@ cmake-build-release
 build
 output/
 .DS_Store
-settings.json
 __pycache__/
 Tests/.cache
 Tests/.pytest_cache
