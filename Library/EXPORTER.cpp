@@ -9,14 +9,25 @@
 #include <Utils/PARAMETER.h>
 #include <Storage/prelude.hpp>
 #include <Storage2/PRELUDE.hpp>
+#include <FEM/Shell/IMPLICIT_EULER.h>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 namespace JGSL {
 
+void SetMaxIter(int max_iter) {
+    MaxIter() = max_iter;
+}
+
+int GetMaxIter(){
+    return MaxIter();
+}
+
 PYBIND11_MODULE(JGSL, m) {
     m.def("Kokkos_Initialize", &Kokkos_Initialize);
     m.def("Kokkos_Finalize", &Kokkos_Finalize);
+    m.def("SetMaxIter", &SetMaxIter);
+    m.def("GetMaxIter", &GetMaxIter);
     Export_Vector(m);
     Export_Random(m);
     py::module meshIO_m = m.def_submodule("MeshIO", "A submodule of JGSL for mesh IO");

@@ -264,6 +264,11 @@ class FEMDiscreteShellBase(SimulationBase):
     def magnify_body_force(self, DBCRangeMin, DBCRangeMax, magnifyFactor):
         FEM.Magnify_Body_Force(self.X, DBCRangeMin, DBCRangeMax, magnifyFactor, self.bodyForce)
 
+    def pop_DBC(self, count):
+        for i in range(count):
+            FEM.Pop_Back_Dirichlet(self.DBCMotion, self.DBC)
+
+
     def advance_one_time_step(self, dt):
         #TODO: self.tol
         if self.normalFlowMag != 0:
@@ -283,17 +288,17 @@ class FEMDiscreteShellBase(SimulationBase):
                 # FEM.Load_Dirichlet(self.seqDBCPath + '/' + str(self.curFrameNum) + '.obj', self.seqDBC, Vector3d(0, -0.75, 0), self.DBC)
                 FEM.Load_Dirichlet(self.seqDBCPath + '/shell' + str(self.curFrameNum) + '.obj', self.seqDBC, Vector3d(0, -0.75, 0), self.DBC)
                 self.curFrameNum = self.curFrameNum + 1
-        if self.DBCPopBackCounter < self.DBCPopBackAmt and self.t < self.DBCPopBackTEnd and self.t > self.DBCPopBackTStart:
-            if self.DBCPopBackFrameCounter % self.DBCPopBackBatch == 0:
-                for i in range(self.DBCPopBackStep):
-                    FEM.Pop_Back_Dirichlet(self.DBCMotion, self.DBC)
-                self.DBCPopBackCounter = self.DBCPopBackCounter + 1
-            self.DBCPopBackFrameCounter = self.DBCPopBackFrameCounter + 1
-        if self.t < self.MDBC_tmax2 and self.t > self.MDBC_tmin2:
-            if self.t - self.MDBC_tmin2 >= self.MDBC_period2 * self.MDBC_periodCounter2:
-                self.MDBC_periodCounter2 += 1
-                FEM.Turn_Dirichlet(self.DBCMotion2)
-            FEM.Step_Dirichlet(self.DBCMotion2, dt, self.DBC)
+        # if self.DBCPopBackCounter < self.DBCPopBackAmt and self.t < self.DBCPopBackTEnd and self.t > self.DBCPopBackTStart:
+        #     if self.DBCPopBackFrameCounter % self.DBCPopBackBatch == 0:
+        #         for i in range(self.DBCPopBackStep):
+        #             FEM.Pop_Back_Dirichlet(self.DBCMotion, self.DBC)
+        #         self.DBCPopBackCounter = self.DBCPopBackCounter + 1
+        #     self.DBCPopBackFrameCounter = self.DBCPopBackFrameCounter + 1
+        # if self.t < self.MDBC_tmax2 and self.t > self.MDBC_tmin2:
+        #     if self.t - self.MDBC_tmin2 >= self.MDBC_period2 * self.MDBC_periodCounter2:
+        #         self.MDBC_periodCounter2 += 1
+        #         FEM.Turn_Dirichlet(self.DBCMotion2)
+        #     FEM.Step_Dirichlet(self.DBCMotion2, dt, self.DBC)
         if self.lv_fn >= 0:
             # load next frame target as rest shape
             newX = Storage.V2dStorage() if self.dim == 2 else Storage.V3dStorage()

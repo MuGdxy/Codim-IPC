@@ -13,11 +13,26 @@
 namespace py = pybind11;
 namespace JGSL {
 
+double GetComponent(VECTOR<double, 3>& v, int i) { return v(i);}
+void SetComponent(VECTOR<double, 3>& v, int i, double value) {v(i)=value;}
+VECTOR<double, 3>& Get(BASE_STORAGE<VECTOR<double, 3>>& s, int i) {
+    auto&& [v] =s.Get_Unchecked(i);
+    return v; 
+}
+void Set(BASE_STORAGE<VECTOR<double, 3>>& s, int i, VECTOR<double, 3>& v) { s.Get_Unchecked(i) = v; }
+int Size(BASE_STORAGE<VECTOR<double, 3>>& s) {return s.size;}
+
+
 template <class EX_SPACE, class MEM_SPACE, std::size_t BIN_SIZE> void Export_Storage(py::module &m) {
     // Basic Single Element, Single Precision Float Storages
     py::class_<BASE_STORAGE<float>>(m, "SfStorage").def(py::init());
     py::class_<BASE_STORAGE<VECTOR<float, 2>>>(m, "V2fStorage").def(py::init());
-    py::class_<BASE_STORAGE<VECTOR<float, 3>>>(m, "V3fStorage").def(py::init());
+    
+    {
+        py::class_<BASE_STORAGE<VECTOR<float, 3>>>(m, "V3fStorage")
+            .def(py::init())
+            .def("Get", &BASE_STORAGE<VECTOR<float, 3>>::Get_Unchecked);
+    }
     py::class_<BASE_STORAGE<VECTOR<float, 4>>>(m, "V4fStorage").def(py::init());
     py::class_<BASE_STORAGE<MATRIX<float, 2>>>(m, "M2fStorage").def(py::init());
     py::class_<BASE_STORAGE<MATRIX<float, 3>>>(m, "M3fStorage").def(py::init());
@@ -25,7 +40,15 @@ template <class EX_SPACE, class MEM_SPACE, std::size_t BIN_SIZE> void Export_Sto
     // Basic Single Element, Double Precision Float Storages
     py::class_<BASE_STORAGE<double>>(m, "SdStorage").def(py::init());
     py::class_<BASE_STORAGE<VECTOR<double, 2>>>(m, "V2dStorage").def(py::init());
-    py::class_<BASE_STORAGE<VECTOR<double, 3>>>(m, "V3dStorage").def(py::init());
+    //py::class_<BASE_STORAGE<VECTOR<double, 3>>>(m, "V3dStorage").def(py::init());
+    {
+        py::class_<BASE_STORAGE<VECTOR<double, 3>>>(m, "V3dStorage").def(py::init());
+        m.def("Get",&Get);
+        m.def("Set",&Set);
+        m.def("GetComponent",&GetComponent);
+        m.def("SetComponent",&SetComponent);
+        m.def("Size",&Size);
+    }
     py::class_<BASE_STORAGE<VECTOR<double, 4>>>(m, "V4dStorage").def(py::init());
     py::class_<BASE_STORAGE<MATRIX<double, 2>>>(m, "M2dStorage").def(py::init());
     py::class_<BASE_STORAGE<MATRIX<double, 3>>>(m, "M3dStorage").def(py::init());

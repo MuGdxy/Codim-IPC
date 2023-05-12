@@ -7,11 +7,11 @@ from JGSL import *
 if __name__ == "__main__":
     sim = Drivers.FEMDiscreteShellBase("double", 3)
 
-    size = '6'
+    size = '60'
     if len(sys.argv) > 1:
         size = sys.argv[1]
 
-    N = 3
+    N = 30
     if len(sys.argv) > 2:
         N = int(sys.argv[2])
 

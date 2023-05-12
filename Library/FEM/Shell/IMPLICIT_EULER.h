@@ -5,6 +5,10 @@
 #include <deque>
 
 namespace JGSL {
+inline int& MaxIter() {
+    static int maxIter = 32;
+    return maxIter;
+}
 
 template <class T, int dim, bool KL, bool elasticIPC, bool flow>
 void Line_Search(
@@ -863,7 +867,7 @@ int Advance_One_Step_IE_Discrete_Shell(
                 break;
             }
         }
-    } while ((resRecord.size() < 3) || L2Norm > NewtonTol); //TODO: newtonTol relative to bbox
+    } while ((resRecord.size() < 3) || L2Norm > NewtonTol && PNIter < MaxIter()); //TODO: newtonTol relative to bbox
 
     FILE *out = fopen((outputFolder + "/counter.txt").c_str(), "a+");
     fprintf(out, "%d", PNIter);

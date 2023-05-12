@@ -7,5 +7,6 @@ output/
 __pycache__/
 Tests/.cache
 Tests/.pytest_cache
+.cache/
 *.pyc
 *.so

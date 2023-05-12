@@ -2,7 +2,12 @@
     "clangd.path": "clangd",
     "clangd.arguments": [
         "--compile-commands-dir=${workspaceFolder}/build",
-        "--background-index"
+        "--log=error",
+        "--completion-style=bundled",
+        "--background-index",
+        "--header-insertion=never",
+        "--pch-storage=memory",
+        "--offset-encoding=utf-8"
     ],
     "python.analysis.extraPaths": ["${workspaceFolder}/build/", "${workspaceFolder}/Python/"],
     "python.analysis.typeCheckingMode": "off",
@@ -14,5 +19,9 @@
             "includeAllSymbols": true
         }
     ],
-    "python.analysis.inlayHints.variableTypes":true
+    "python.analysis.inlayHints.variableTypes": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
 }
